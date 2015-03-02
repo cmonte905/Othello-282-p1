@@ -12,8 +12,10 @@ int main() {
       }
    }
    cout << "Welcome to Othello" << endl;
-   board[3][4] = 1; board[4][4] = -1;
-   board[4][3] = 1; board[3][3] = -1;
+   board[3][4] = 1; 
+   board[4][4] = -1;
+   board[4][3] = 1; 
+   board[3][3] = -1;
    PrintBoard(board);
    while (gameState) {
       cout << "Black players turn, enter a move" << endl;
@@ -25,7 +27,7 @@ int main() {
          cout << "Move is invalid, please enter a valid move" << endl;
          GetMove(&row, &col);         
       }
-     // PrintBoard(board);
+      PrintBoard(board);
       cout << "White players turn, enter a move" << endl;
       GetMove(&row, &col);
       if (InBounds(row, col)) {

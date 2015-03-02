@@ -22,7 +22,6 @@ void PrintBoard(char board[BOARD_SIZE][BOARD_SIZE]) {
    }
 }
 bool InBounds(int row, int col) {
-   cout << "it is in bounds" << endl;
    return (row < BOARD_SIZE) && (row >= 0) && (col < BOARD_SIZE) && (col >= 0);
 }
 
@@ -36,64 +35,70 @@ void GetMove(int *row, int *col) {
    //cin >> temp >> *row >> temp >> *col >> temp;
 }
 
+
 //switch with elvis cases
 void ApplyMove(char board[BOARD_SIZE][BOARD_SIZE], int row,
    int col, char currentPlayer) {
 
-   int count = 0, player = (currentPlayer == 'B' ? 1 : -1);
-   board[row][col] = player;
-   PrintBoard(board);
+   bool moreThanOne = true;
+   int count = 0, current = (currentPlayer == 'B' ? 1 : -1);
+   int opposite = (currentPlayer == 'B' ? -1 : 1);
+   cout << "Currently in applyMove " << current << endl;
+   board[row][col] = current;
    for (int i = -1; i < 2; i++) {
       for (int j = -1; j < 2; j++) {
-         cout << i << " <-- i - j -->" << j << endl;
          int checkR = row + i, checkC = col + j;
-         cout << " Before the while loop" << endl;
-         //&& InBounds(checkR, checkC)
-         char check = board[checkR][checkC];
-         cout << "Check what is in the 2d array " << check << endl;
-         int c = 0;
-         while (board[checkR][checkC] != 0 && InBounds(checkR, checkC)) {   //Checks to make sure that it is inbounds and if there is a 0, breaks if there is a 0
-            cout << "Did it get in the while loop?\n" << endl;
-            
-            if (board[checkR][checkC] != player) { // keeps going until it reaches an friendly player
-               cout << "Went into the first if statement" << endl;
-               checkR += i; checkC += j;           // Keeps adding on these variables 
-               count++;
-               cout << i << " the I & count " << count << endl;//increments if there is a enemy piece 
-            }
-               cout << "Yes it did get inside" << endl;
-            if (count > 0) {//If there were any pieces to move, then it would
-               for (; count > 0; count--) { // SHould be going back to flip any pieces if there were any
-                  cout << " Piece that should get swithced\n" << checkR << " " << checkC << endl;
-                  checkC--; checkR--;
-                  cout << checkC << checkR << endl;
-                  board[checkR][checkC] = player;
-                  cout << "---------------------------" << endl;
-                  PrintBoard(board);
-                  cout << "---------------------------" << endl;
-                  cout << player << " <-- is player :Space that is getting switched" << checkR << checkC << endl;
-               }
-
-            }
-            
-            cout << "I fucking hate programming this shit, fuck the 20 line limit " << c << endl;
-            c++;
-            if (c == 5) {
+         while (board[checkR][checkC] == opposite) {
+            checkR += i; checkC += j;
+            count++;
+            if (board[checkR][checkC] == current && InBounds(checkR, checkC)) {   //&& InBounds(checkR, checkC)
                break;
             }
-            break;
-            cout << "Did it get out the while loop?" << endl;
-            //cout << "Its doing something " << r << c<<  endl;
          }
-         cout << " Comes out of the while loop" << endl;
+
+
+         if (board[checkR][checkC] == current) {
+            for (;;) {
+               cout << " Piece that should get swithced " << checkR << " " << checkC << endl;
+               for (; count > -1; count--) {
+                  checkR -= i; checkC -= j;
+                  board[checkR][checkC] = current;
+               }
+               if (board[checkR][checkC] == board[row][col]) {
+                  break;
+               }
+            }
+         }
+
       }
 
+      //PrintBoard(board);
    }
-
-   PrintBoard(board);
 }
 
 /*
+
+cout << "I fucking hate programming this shit, fuck the 20 line limit " << c << endl;
+c++;
+if (c == 5) {
+break;
+}
+break;
+
+
+
+else {//If there were any pieces to move, then it would
+if (count > 0) {
+for (; count > 0; count--) { // SHould be going back to flip any pieces if there were any
+cout << " Piece that should get swithced" << checkR << " " << checkC << endl;
+checkR -= i; checkC -= j;
+board[checkR][checkC] = current;
+cout << "---------------------------" << endl;
+PrintBoard(board);
+cout << "---------------------------" << endl;
+}
+}
+}
 
 void ApplyMove(char board[BOARD_SIZE][BOARD_SIZE], int row
 , int col, char currentPlayer) {
